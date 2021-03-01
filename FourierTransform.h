@@ -20,17 +20,25 @@ typedef std::complex<double> Complex;
 
 class FourierTransform {
 public:
-    static void fft(Complex *X, int N) {
+    static Complex * fft(Complex *x, size_t N) {
+        Complex * X = (Complex *)malloc(sizeof(Complex) * N);
         if(N >= 2){
-            separate(X, N);   // all evens to lower half, all odds to upper half
-            fft(X, N / 2);   // recurse even items
-            fft(X + N / 2, N / 2);   // recurse odd  items
+            size_t half_N = N >> 1;
+//            separate(X, N);   // all evens to lower half, all odds to upper half
+            Complex * x_even = (Complex *)malloc(half_N * sizeof(Complex));
+            Complex * x_odd = (Complex *)malloc(half_N * sizeof(Complex));
+            for (size_t i = 0; i < half_N; i++) {
+                x_even[i] = x[2 * i];
+                x_odd[i] = x[2 * i + 1];
+            }
+            Complex * X_even = fft(x_even, half_N);   // recurse even items
+            Complex * X_odd = fft(x_odd, half_N);   // recurse odd  items
             // combine results of two half recursions
-            for (int k = 0; k < N / 2; k++) {
-                Complex e = X[k];   // even
-                Complex o = X[k + N / 2];   // odd
+            for (size_t k = 0; k < half_N; k++) {
+                Complex e = X_even[k];   // even
+                Complex o = X_odd[k];   // odd
                 // w is the "twiddle-factor"
-                Complex w = (k == 0) ? 1 : exp(Complex(0, -2. * M_PI * k / N));
+                Complex w = (k == 0) ? 1 : exp(Complex(0, -2. * M_PI * (double)k / (double)N));
                 //X[k] = e + w * o;
                 //X[k+N/2] = e - w * o;
 
@@ -45,38 +53,43 @@ public:
                 if (o.real() == 0 && o.imag() == 0 && e.real() == 0
                         && e.imag() == 0) {
                     X[k] = 0;
-                    X[k + N / 2] = 0;
+                    X[k + half_N] = 0;
                 } else if (o.real() == 0 && o.imag() == 0) {
                     X[k] = e;
-                    X[k + N / 2] = e;
+                    X[k + half_N] = e;
                 } else if (e.real() == 0 && e.imag() == 0) {
                     X[k] = w * o;
-                    X[k + N / 2] = -w * o;
+                    X[k + half_N] = -w * o;
                 } else {
                     X[k] = even;
-                    X[k + N / 2] = odd;
+                    X[k + half_N] = odd;
                 }
             }
+        } else {
+            X = x;
         }
+        return X;
     }
-    static void ifft(Complex *X, int N) {
+    static Complex * ifft(Complex *X, size_t N) {
         //F^-1{x} = F{x*}*/N
         /*i.e. The inverse discrete fourier transform is equal to the
          * conjugate forward fourier transform with x conjugate input, all over N
          * where N is the number of samples.
          */
-        for(int i = 0; i < N; i++){
+        Complex * x = (Complex *)malloc(sizeof(Complex) * N);
+        for(size_t i = 0; i < N; i++){
             //Conjugate input
-            X[i] = std::conj(X[i]);
+            x[i] = std::conj(X[i]);
         }
-        fft(X, N);
-        for(int j = 0; j < N; j++){
+        x = fft(x, N);
+        for(size_t j = 0; j < N; j++){
             //Conjugate output
-            X[j] = std::conj(X[j]);
+            x[j] = std::conj(x[j]);
             //Divide by N
-            X[j].real(X[j].real()/N);
-            X[j].imag(X[j].imag()/N);
+            x[j].real(x[j].real()/N);
+            x[j].imag(x[j].imag()/N);
         }
+        return x;
     }
 private:
     static void separate(Complex* a, int n) {

@@ -1,5 +1,5 @@
-#include "bp_br_dialog.h"
-#include "ui_bp_br_dialog.h"
+#include "BPBRDialog.h"
+#include "ui_BPBRDialog.h"
 
 BPBRDialog::BPBRDialog(QWidget *parent) :
     QDialog(parent),

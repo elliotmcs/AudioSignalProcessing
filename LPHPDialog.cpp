@@ -1,6 +1,6 @@
-#include "lp_hp_dialog.h"
-#include "ui_lp_hp_dialog.h"
-#include "mainwindow.h"
+#include "LPHPDialog.h"
+#include "ui_LPHPDialog.h"
+#include "MainWindow.h"
 
 LPHPDialog::LPHPDialog(QWidget *parent) :
     QDialog(parent),

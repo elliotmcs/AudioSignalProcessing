@@ -26,10 +26,10 @@ public:
     ~FilterHandler();
 private:
     char *url;
-    int num_samples;
+    size_t num_samples;
     int num_samples_log;
     size_t real_size;
-    Complex *samples;
+    std::vector<Complex> *samples;
     enum FilterType {LP, HP, BP, BR, CMB};
     vector<uint32_t> data;
     WavReader *wav_r;

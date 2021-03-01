@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="lowPassButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -30,7 +30,7 @@
      <string>Low-Pass</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="highPassButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -46,7 +46,7 @@
      <string>High-Pass</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="bandPassButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -62,7 +62,7 @@
      <string>Band-Pass</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="bandRejectButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -78,7 +78,7 @@
      <string>Band-Reject</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="combButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -94,7 +94,7 @@
      <string>Comb</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="fileLineEdit">
     <property name="geometry">
      <rect>
       <x>250</x>
@@ -104,7 +104,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton">
+   <widget class="QToolButton" name="browseButton">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -117,11 +117,11 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../CPP/Audio Signal Processing/VS2017 Image Library/VS2017/Folder/Folder_16xSM.png</normaloff>../CPP/Audio Signal Processing/VS2017 Image Library/VS2017/Folder/Folder_16xSM.png</iconset>
+     <iconset resource="resources.qrc">
+      <normaloff>:/assets/folder_icon.png</normaloff>:/assets/folder_icon.png</iconset>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="filterTypeLabel">
     <property name="geometry">
      <rect>
       <x>440</x>
@@ -140,7 +140,7 @@
      <string>Filter Type:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="fileLabel">
     <property name="geometry">
      <rect>
       <x>210</x>
@@ -159,7 +159,7 @@
      <string>File</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="exportButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -181,22 +181,22 @@
      <string>Export</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1000</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
+   <widget class="QLabel" name="loadingLabel">
+    <property name="geometry">
+     <rect>
+      <x>484</x>
+      <y>160</y>
+      <width>32</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -219,6 +219,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

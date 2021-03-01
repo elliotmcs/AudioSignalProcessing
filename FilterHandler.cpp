@@ -1,4 +1,4 @@
-#include "filterhandler.h"
+#include "FilterHandler.h"
 
 FilterHandler::FilterHandler(char *url)
 {
@@ -9,23 +9,23 @@ FilterHandler::FilterHandler(char *url)
     reverse(data.begin(), data.end());
     real_size = data.size();
     num_samples_log = ceil(log2(real_size));
-    num_samples = pow(2, num_samples_log);
-    samples = new Complex[num_samples];
-    for (int i = 0; i < num_samples; i++) {
+    num_samples = (size_t) pow(2, num_samples_log);
+    printf("num_samples: %lu\n", num_samples);
+    samples = new std::vector<Complex>();
+    for (size_t i = 0; i < num_samples; i++) {
+        Complex *c = new Complex(0, 0);
         if (i < real_size) {
             int val = (int) data[i];
             val = (val > pow(2, wav_r->get_BitsPerSample() - 1)) ?
                     val - pow(2, wav_r->get_BitsPerSample()) : val;
-            samples[i].real(val);
+            c->real(val);
         } else {
-            samples[i].real(0);
+            c->real(0);
         }
-        samples[i].imag(0);
+        samples->push_back(*c);
     }
-    //FourierTransform::fft(samples, num_samples);
-    //FourierTransform::ifft(samples, num_samples);
 }
-void FilterHandler::applyLPFilter(double cutoff, double falloff){
+void FilterHandler::applyLPFilter(double cutoff, double falloff) {
     AudioFilters::Lowpass_Filter(samples, wav_r->get_SampleRate(), num_samples, cutoff, falloff);
 }
 void FilterHandler::applyHPFilter(double cutoff, double falloff){
@@ -38,12 +38,12 @@ void FilterHandler::applyBRFilter(double cutoff_1, double cutoff_2, double fallo
     AudioFilters::Bandreject_Filter(samples, wav_r->get_SampleRate(), num_samples, cutoff_1, cutoff_2, falloff);
 }
 void FilterHandler::applyCMBFilter(double delay, double amplitude){
-    AudioFilters::Comb_Filter(samples, num_samples, wav_r->get_SampleRate(), delay, amplitude);
+    AudioFilters::Comb_Filter(samples, wav_r->get_SampleRate(), num_samples, delay, amplitude);
 }
 void FilterHandler::exportFile(char *url){
     vector<uint32_t> data_2;
-    for (int i = 0; i < real_size; i++) {
-        data_2.push_back((uint32_t) samples[i].real());
+    for (size_t i = 0; i < real_size; i++) {
+        data_2.push_back((uint32_t) samples->at(i).real());
     }
     wav_w = new WavWriter(wav_r->get_AudioFormat(),
             wav_r->get_NumChannels(), wav_r->get_SampleRate(),

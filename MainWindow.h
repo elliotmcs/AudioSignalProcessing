@@ -5,7 +5,7 @@
 #include <QFileDialog>
 #include <QMovie>
 
-#include "filterhandler.h"
+#include "FilterHandler.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,15 +23,15 @@ private:
     Ui::MainWindow *ui;
     FilterHandler *filter_handler;
 private slots:
-    void handleButton_1();
+    void handleLowPassButton();
 private slots:
-    void handleButton_2();
+    void handleHighPassButton();
 private slots:
-    void handleButton_3();
+    void handleBandPassButton();
 private slots:
-    void handleButton_4();
+    void handleBandRejectButton();
 private slots:
-    void handleButton_5();
+    void handleCombButton();
 private slots:
     void handleFileButton();
 private slots:

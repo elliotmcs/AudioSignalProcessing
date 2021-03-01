@@ -1,5 +1,5 @@
-#include "cmb_dialog.h"
-#include "ui_cmb_dialog.h"
+#include "CMBDialog.h"
+#include "ui_CMBDialog.h"
 
 CMBDialog::CMBDialog(QWidget *parent) :
     QDialog(parent),
